@@ -1,14 +1,12 @@
 const GameBoard = function () {
-  // prettier-ignore
-  this.board = [
-    null, null, null, 
-    null, null, null, 
-    null, null, null
-  ];
+  this.board = [null, null, null, null, null, null, null, null, null];
 
   this.playMove = (i, side) => {
     this.board[i] = side;
-    console.log(this.board);
+  };
+
+  this.newGame = () => {
+    this.board = [null, null, null, null, null, null, null, null, null];
   };
 };
 
@@ -29,9 +27,12 @@ const playerFactory = (side) => {
   return { getSide, win, getScore, newGame };
 };
 
+const DisplayController = function (board) {
+
+};
+
 const x = playerFactory("x");
 const o = playerFactory("o");
 
 const gameBoard = new GameBoard();
-
-
+const displayController = new DisplayController(gameBoard.board);
