@@ -4,7 +4,6 @@
   "description": "A web app for playing tic tac toe!",
   "main": "index.js",
   "scripts": {
-    "tailwind": "npx tailwindcss -i ./src/input.css -o ./build/css/style.css --watch",
     "prettier": "npx prettier --write '**/*.{html,js}"
   },
   "keywords": [],
