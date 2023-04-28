@@ -27,12 +27,30 @@ const playerFactory = (side) => {
   return { getSide, win, getScore, newGame };
 };
 
-const DisplayController = function (board) {
+function gameController() {
+  const x = playerFactory("x");
+  const o = playerFactory("o");
 
-};
+  const gameBoard = new GameBoard();
 
-const x = playerFactory("x");
-const o = playerFactory("o");
+  let activePlayer = x;
 
-const gameBoard = new GameBoard();
-const displayController = new DisplayController(gameBoard.board);
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === x ? o : x;
+  };
+
+  const getActivePlayer = () => activePlayer;
+
+  const playRound = (i) => {
+    if (gameBoard.board[i] !== null) {
+      return;
+    }
+    gameBoard.playMove(i, getActivePlayer().getSide());
+
+    // check winner here
+
+    switchPlayerTurn();
+  };
+
+  return { getActivePlayer, playRound, getBoard: gameBoard.board };
+}
