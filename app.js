@@ -27,7 +27,7 @@ const playerFactory = (side) => {
   return { getSide, win, getScore, newGame };
 };
 
-function gameController() {
+function GameController() {
   const x = playerFactory("x");
   const o = playerFactory("o");
 
@@ -52,5 +52,38 @@ function gameController() {
     switchPlayerTurn();
   };
 
-  return { getActivePlayer, playRound, getBoard: gameBoard.board };
+  return { getActivePlayer, playRound, board: gameBoard.board };
 }
+
+function DisplayController() {
+  const game = GameController();
+  const boardDiv = document.querySelector(".board");
+
+  function updateScreen() {
+    boardDiv.textContent = "";
+
+    const {board} = game;
+    const activePlayer = game.getActivePlayer();
+
+    board.forEach((cell, i) => {
+      const cellAnchor = document.createElement("a");
+      cellAnchor.classList.add("cell");
+
+      cellAnchor.dataset.index = i;
+      cellAnchor.textContent = cell;
+      boardDiv.appendChild(cellAnchor);
+    });
+  }
+
+  function clickHandlerBoard(e) {
+    const selectedCell = e.target.dataset.index;
+    game.playRound(selectedCell);
+    updateScreen();
+  }
+
+  boardDiv.addEventListener("click", clickHandlerBoard);
+
+  updateScreen();
+}
+
+DisplayController();
