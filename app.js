@@ -104,12 +104,14 @@ function DisplayController() {
   const boardDiv = document.querySelector(".board");
   const xScoreSpan = document.querySelector(".x-score-num");
   const oScoreSpan = document.querySelector(".o-score-num");
+  const output = document.querySelector(".output");
 
   function updateScreen() {
     boardDiv.textContent = "";
 
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
+    output.textContent = `${activePlayer.getSide().toUpperCase()}'s turn`
 
     const scores = game.getScores();
     xScoreSpan.textContent = scores.xScore;
