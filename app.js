@@ -8,6 +8,32 @@ const GameBoard = function () {
   this.newGame = () => {
     this.board = [null, null, null, null, null, null, null, null, null];
   };
+
+  this.getBoard = () => this.board;
+
+  this.checkWinner = (side) => {
+    const winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [6, 4, 2],
+    ];
+    let winner = false;
+    winConditions.forEach((condition) => {
+      if (
+        this.board[condition[0]] === side &&
+        this.board[condition[1]] === side &&
+        this.board[condition[2]] === side
+      ) {
+        winner = true;
+      }
+    });
+    return winner;
+  };
 };
 
 const playerFactory = (side) => {
@@ -40,19 +66,31 @@ function GameController() {
   };
 
   const getActivePlayer = () => activePlayer;
+  const getScores = () => [x.getScore, o.getScore];
 
   const playRound = (i) => {
     if (gameBoard.board[i] !== null) {
       return;
     }
-    gameBoard.playMove(i, getActivePlayer().getSide());
+    activePlayer = getActivePlayer();
+    gameBoard.playMove(i, activePlayer.getSide());
 
-    // check winner here
-
-    switchPlayerTurn();
+    const winner = gameBoard.checkWinner(activePlayer.getSide());
+    if (winner) {
+      activePlayer.win();
+      activePlayer = x;
+      gameBoard.newGame();
+    } else {
+      switchPlayerTurn();
+    }
   };
 
-  return { getActivePlayer, playRound, board: gameBoard.board };
+  return {
+    getActivePlayer,
+    playRound,
+    getBoard: gameBoard.getBoard,
+    getScores,
+  };
 }
 
 function DisplayController() {
@@ -62,7 +100,7 @@ function DisplayController() {
   function updateScreen() {
     boardDiv.textContent = "";
 
-    const {board} = game;
+    const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
 
     board.forEach((cell, i) => {
