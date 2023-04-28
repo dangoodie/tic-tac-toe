@@ -69,8 +69,8 @@ function GameController() {
   const getScores = () => {
     const obj = {
       xScore: x.getScore(),
-      oScore: o.getScore()
-    }
+      oScore: o.getScore(),
+    };
     return obj;
   };
 
@@ -87,6 +87,9 @@ function GameController() {
       activePlayer = x;
       gameBoard.newGame();
     } else {
+      if (!gameBoard.getBoard().includes(null)) {
+        gameBoard.newGame();
+      }
       switchPlayerTurn();
     }
   };
@@ -111,7 +114,7 @@ function DisplayController() {
 
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
-    output.textContent = `${activePlayer.getSide().toUpperCase()}'s turn`
+    output.textContent = `${activePlayer.getSide().toUpperCase()}'s turn`;
 
     const scores = game.getScores();
     xScoreSpan.textContent = scores.xScore;
