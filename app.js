@@ -66,7 +66,13 @@ function GameController() {
   };
 
   const getActivePlayer = () => activePlayer;
-  const getScores = () => [x.getScore, o.getScore];
+  const getScores = () => {
+    const obj = {
+      xScore: x.getScore(),
+      oScore: o.getScore()
+    }
+    return obj;
+  };
 
   const playRound = (i) => {
     if (gameBoard.board[i] !== null) {
@@ -96,12 +102,18 @@ function GameController() {
 function DisplayController() {
   const game = GameController();
   const boardDiv = document.querySelector(".board");
+  const xScoreSpan = document.querySelector(".x-score-num");
+  const oScoreSpan = document.querySelector(".o-score-num");
 
   function updateScreen() {
     boardDiv.textContent = "";
 
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
+
+    const scores = game.getScores();
+    xScoreSpan.textContent = scores.xScore;
+    oScoreSpan.textContent = scores.oScore;
 
     board.forEach((cell, i) => {
       const cellAnchor = document.createElement("a");
