@@ -76,22 +76,30 @@ function GameController() {
 
   const playRound = (i) => {
     if (gameBoard.board[i] !== null) {
-      return;
+      return null;
     }
+
+    let winner = "";
     activePlayer = getActivePlayer();
     gameBoard.playMove(i, activePlayer.getSide());
 
-    const winner = gameBoard.checkWinner(activePlayer.getSide());
-    if (winner) {
+    // check for winner
+    if (gameBoard.checkWinner(activePlayer.getSide())) {
       activePlayer.win();
+      winner = activePlayer.getSide();
+
+      // reset for top
       activePlayer = x;
       gameBoard.newGame();
     } else {
+      // check for tie game
       if (!gameBoard.getBoard().includes(null)) {
+        winner = "tie";
         gameBoard.newGame();
       }
       switchPlayerTurn();
     }
+    return winner;
   };
 
   return {
@@ -130,9 +138,22 @@ function DisplayController() {
     });
   }
 
+  function displayNewRoundBtn(message) {
+    console.log(message);
+  }
+
   function clickHandlerBoard(e) {
     const selectedCell = e.target.dataset.index;
-    game.playRound(selectedCell);
+    const winner = game.playRound(selectedCell);
+
+    if (winner === "x" || winner === "o" || winner === "tie") {
+      if (winner === "tie") {
+        output.textContent = "Tie game";
+      } else {
+        output.textContent = `${winner} wins!`;
+      }
+      displayNewRoundBtn(winner);
+    }
     updateScreen();
   }
 
