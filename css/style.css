@@ -6,8 +6,8 @@
 
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 200px);
-  grid-template-rows: repeat(3, 200px);
+  grid-template-columns: repeat(3, 133px);
+  grid-template-rows: repeat(3, 133px);
 }
 
 .cell {
@@ -22,15 +22,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: auto;
 }
 
 .heading {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .scoreboard {
   display: flex;
-  gap: 100px;
+  gap: 4rem;
   font-size: 2rem;
 }
 
