@@ -151,7 +151,6 @@ function DisplayController() {
       } else {
         modalHeader.textContent = `${message} wins!`;
       }
-      console.log(message);
     }
   }
 
@@ -160,7 +159,6 @@ function DisplayController() {
     boardDiv.addEventListener("click", clickHandlerBoard);
     modalContainer.classList.add("hidden");
     game.newGame();
-    console.log("Clicked!");
     updateScreen();
   }
 
@@ -169,8 +167,6 @@ function DisplayController() {
   function clickHandlerBoard(e) {
     const selectedCell = e.target.dataset.index;
     const winner = game.playRound(selectedCell);
-
-    console.log(winner);
 
     if (winner === "x" || winner === "o" || winner === "tie") {
       displayNewRound(winner);
