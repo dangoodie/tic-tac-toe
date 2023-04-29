@@ -11,7 +11,7 @@
 }
 
 .cell {
-  border: 2px black solid;
+  border: 5px black solid;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,4 +87,36 @@
 
 .new-round:focus {
   background-color: rgb(189, 189, 189);
+}
+
+
+/* special border for tic tac toe board cells */
+
+.cell:nth-child(1) {
+  border-left: none;
+  border-top: none;
+}
+.cell:nth-child(2) {
+  border-top: none;
+}
+.cell:nth-child(3) {
+  border-right: none;
+  border-top: none;
+}
+.cell:nth-child(4) {
+  border-left: none;
+}
+.cell:nth-child(6) {
+  border-right: none;
+}
+.cell:nth-child(7) {
+  border-left: none;
+  border-bottom: none;
+}
+.cell:nth-child(8) {
+  border-bottom: none;
+}
+.cell:nth-child(9) {
+  border-bottom: none;
+  border-right: none;
 }
