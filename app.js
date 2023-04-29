@@ -87,19 +87,19 @@ function GameController() {
     if (gameBoard.checkWinner(activePlayer.getSide())) {
       activePlayer.win();
       winner = activePlayer.getSide();
-
-      // reset for top
-      activePlayer = x;
-      gameBoard.newGame();
     } else {
       // check for tie game
       if (!gameBoard.getBoard().includes(null)) {
         winner = "tie";
-        gameBoard.newGame();
       }
       switchPlayerTurn();
     }
     return winner;
+  };
+
+  const newGame = () => {
+    gameBoard.newGame();
+    activePlayer = x;
   };
 
   return {
@@ -107,6 +107,7 @@ function GameController() {
     playRound,
     getBoard: gameBoard.getBoard,
     getScores,
+    newGame,
   };
 }
 
@@ -138,9 +139,31 @@ function DisplayController() {
     });
   }
 
-  function displayNewRoundBtn(message) {
-    console.log(message);
+  const modalContainer = document.querySelector(".modal-container");
+  const modalHeader = document.querySelector(".modal-header");
+  const newRound = document.querySelector(".new-round");
+
+  function displayNewRound(message) {
+    modalContainer.classList.remove("hidden");
+    if (message === "x" || message === "o" || message === "tie") {
+      if (message === "tie") {
+        modalHeader.textContent = "Tie game";
+      } else {
+        modalHeader.textContent = `${message} wins!`;
+      }
+      console.log(message);
+    }
   }
+
+  function clickHandlerNewRound(e) {
+    e.preventDefault();
+    modalContainer.classList.add("hidden");
+    game.newGame();
+    console.log("Clicked!");
+    updateScreen();
+  }
+
+  newRound.addEventListener("click", clickHandlerNewRound);
 
   function clickHandlerBoard(e) {
     const selectedCell = e.target.dataset.index;
@@ -152,7 +175,7 @@ function DisplayController() {
       } else {
         output.textContent = `${winner} wins!`;
       }
-      displayNewRoundBtn(winner);
+      displayNewRound(winner);
     }
     updateScreen();
   }
