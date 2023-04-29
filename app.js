@@ -157,6 +157,7 @@ function DisplayController() {
 
   function clickHandlerNewRound(e) {
     e.preventDefault();
+    boardDiv.addEventListener("click", clickHandlerBoard);
     modalContainer.classList.add("hidden");
     game.newGame();
     console.log("Clicked!");
@@ -169,13 +170,18 @@ function DisplayController() {
     const selectedCell = e.target.dataset.index;
     const winner = game.playRound(selectedCell);
 
+    console.log(winner);
+
     if (winner === "x" || winner === "o" || winner === "tie") {
+      displayNewRound(winner);
+      updateScreen();
+      boardDiv.removeEventListener("click", clickHandlerBoard);
       if (winner === "tie") {
         output.textContent = "Tie game";
       } else {
         output.textContent = `${winner} wins!`;
       }
-      displayNewRound(winner);
+      return;
     }
     updateScreen();
   }
